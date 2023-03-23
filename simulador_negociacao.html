@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style type="text/css">
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1{
+            font-size: 25px;
+            text-align: center;
+        }
+        section{
+            padding: 15px 15px;
+            background-color: #C0C0C0;
+        }
+        .nome_prod{            
+            font-weight: bold;
+            padding: 0;
+            width: 260px;
+            font-size: 18px;
+        }
+        label{
+            padding-left: 5px;
+            padding-right: 2px;
+           
+        }
+        input{
+            width: 80px;
+            margin-right: 20px;
+        }
+        button{
+            margin-left: 30px;
+            width: 100px;
+            height: 30px;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 2px 2px;
+            font-weight: bold;
+        }
+        .resultado{
+            color: blue;
+            font-weight: bold;
+            padding-left: 10%;
+            text-align: center;
+        }
+        .span{
+            font-size: 20px;
+            color: blue;
+            font-weight: bold;
+
+
+        }
+
+    </style>
+
+    <title>Simulador</title>
+    
+</head>
+
+<body>
+    <h1>Simulador de Negociação</h1>
+    
+    <section>
+        
+        <input type="text" class="nome_prod" placeholder="Escreva o nome do produto A"><br><br>
+        <label for="p_tabela">Preço da tabela</label><br>
+        <input type="number" name="tab1" id="tab1" autofocus><br><br>
+        <label for="qtd">Quantidade</label><br>
+        <input type="number" name="qtd1" id="qtd1"><br><br>
+        <label for="pm">Preço Médio (meta)</label><br>
+        <input type="number" name="pm1" id="pm1"><br><br>
+        <label for="r1" class="resultado">O valor total do desconto será de R$</label><span id="r1" class="span"></span>
+
+        
+    </section>
+    <br>
+    
+
+    <section>
+        <input type="text" class="nome_prod" placeholder="Escreva o nome do produto B"><br><br>
+
+
+        <label for="p_tabela">Preço da tabela</label><br>
+        <input type="number" name="tab2" id="tab2"><br><br>
+        <label for="qtd">Quantidade</label><br>
+        <input type="number" name="qtd2" id="qtd2"><br><br>
+        <label for="r2" class="resultado">O preço final (com desconto) por caixa será de R$</label><span id="r2" class="span"></span>
+        
+    </section>
+
+    <p>
+        <button onclick="simular()">Simular</button>
+    </p>
+
+    <script>
+        var tab1 = document.querySelector('#tab1')
+        var qtd1 = document.querySelector('#qtd1')
+        var pm1 = document.querySelector('#pm1')
+
+        var r1 = document.querySelector('#r1')
+
+        var tab2 = document.querySelector('#tab2')
+        var qtd2 = document.querySelector('#qtd2')
+
+        var r2 = document.querySelector('#r2')
+
+        function simular(){
+            
+            calculo1 = (parseFloat(tab1.value)-parseFloat(pm1.value))*parseInt(qtd1.value)
+            calculo2 = ((parseFloat(tab2.value)*parseInt(qtd2.value))-calculo1)/parseInt(qtd2.value)
+            r1.innerHTML = calculo1.toFixed(2)
+            r2.innerHTML = calculo2.toFixed(2)
+            
+        }
+    </script>
+</body>
+</html>
