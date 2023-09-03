@@ -30,7 +30,7 @@ busca = 'restaurante, Cariacica - ES'
 
 navegador.get(pagina) # abre a página desejada
 
-sleep(3) # tempo para que a página renderize e não corra o risco de o texto ser "digitado" antes
+sleep(2) # tempo para que a página renderize e não corra o risco de o texto ser "digitado" antes
 
 # encontra o elemento xpath do campo desejado. No lugar de xpath pode colocar outro atributo como class e id
 elem_busca = navegador.find_element('xpath','//*[@id="searchboxinput"]')
@@ -38,33 +38,20 @@ elem_busca.click() # seleciona com um click o elemento buscado
 elem_busca.send_keys(busca) # envia o texto digitado na variável ou por extenso dentro de aspas para o campo selecionado
 elem_busca.send_keys(Keys.RETURN) # tecla Enter após digitar a busca
 
+sleep(3) # tempo para que a página renderize e não corra o risco de não renderizar todo o conteúdo buscado.
+page_busca = navegador.page_source # pega o caminho da página buscada
+page_conteudo = bs(page_busca,'html.parser') # pega o conteudo html do caminho retornado no navegador
 
 
-page_busca = bs(navegador.page_source,'html.parser')
 
-print(page_busca.prettify())
 
+
+print(page_conteudo.prettify()) # imprime o código com identação padrão html
 
 input('pressione alguma tecla para interromper') # precisei colocar pois a página não permanecia aberta após rodar o script
 
-"""
-proximos passos:
-pegar a url do retorno encontrado com a pesquisa, capturar o conteudo da página,
-localizar os atributos que preciso e buscar os seus respectivos textos.
-
-colocar em um lista e depois vem o tratamento em pandas
-
-
-"""
-
 # com bs4
 """
-
-req_response = requests.get(site_g1)
-conteudo = req_response.content
-
-# usando o metodo beautifullsoup
-conteudo_site = bs(conteudo,'html.parser')
 
 # find(tag, atributo)
 # procura com a tag pela notícia
