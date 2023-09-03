@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import pandas as pd
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 from selenium import webdriver # implementar o driver do navegador
 
@@ -29,17 +31,19 @@ clicar em copy, e em XPath.
 elem_busca = navegador.find_element('xpath','//*[@id="searchboxinput"]')
 elem_busca.click() # seleciona com um click o elemento buscado
 elem_busca.send_keys(busca) # envia o texto digitado na variável ou por extenso dentro de aspas para o campo selecionado
-
-# localiza a lupa que faz a busca do texto digitado e aciona por um click
-lupa = navegador.find_element('xpath','//*[@id="searchbox-searchbutton"]')
-
-
-lupa.click()
-
+elem_busca.send_keys(Keys.RETURN) # tecla Enter após digitar a busca
 
 input('manter página aberta até uma informação do teclado')
 
+"""
+proximos passos:
+pegar a url do retorno encontrado com a pesquisa, capturar o conteudo da página,
+localizar os atributos que preciso e buscar os seus respectivos textos.
 
+colocar em um lista e depois vem o tratamento em pandas
+
+
+"""
 
 # com bs4
 """
