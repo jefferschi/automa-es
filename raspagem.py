@@ -13,15 +13,37 @@ servico = Service(ChromeDriverManager().install()) # instala o driver no ambient
 # Criar uma instância do WebDriver
 navegador = webdriver.Chrome(service=servico) # roda o navegador
 
-navegador.get('https://g1.globo.com/')
+maps = 'https://www.google.com.br/maps/'
+g1 = 'https://g1.globo.com/'
+busca = 'restaurante, Cariacica - ES'
+
+navegador.get(maps)
+
+"""
+copiar o xpath substitui copiar um elemento da página html, como uma classe, uma div, uma tag qualquer.
+Para consegui-lo, ao inspecionar uma página, clicar com o botão inverso sobre a área desejada no código,
+clicar em copy, e em XPath. 
+
+"""
+# encontra o elemento xpath do campo desejado. No lugar de xpath pode colocar outro atributo como class e id
+elem_busca = navegador.find_element('xpath','//*[@id="searchboxinput"]')
+elem_busca.click() # seleciona com um click o elemento buscado
+elem_busca.send_keys(busca) # envia o texto digitado na variável ou por extenso dentro de aspas para o campo selecionado
+
+# localiza a lupa que faz a busca do texto digitado e aciona por um click
+lupa = navegador.find_element('xpath','//*[@id="searchbox-searchbutton"]')
+
+
+lupa.click()
+
+
 input('manter página aberta até uma informação do teclado')
 
 
 
 # com bs4
 """
-site_google = 'https://www.google.com.br/maps/'
-site_g1 = 'https://g1.globo.com/'
+
 req_response = requests.get(site_g1)
 conteudo = req_response.content
 
