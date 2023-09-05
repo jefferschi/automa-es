@@ -4,10 +4,8 @@ from time import sleep
 from bs4 import BeautifulSoup as bs
 import pandas as pd
 
-
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-
 from selenium import webdriver # implementar o driver do navegador
 
 # configuraçõs do navegador. usando o webdriver-manager para não precisar instalar o driver específico do navegador manualmente.
@@ -15,40 +13,52 @@ from webdriver_manager.chrome import ChromeDriverManager # driver do navegador. 
 from selenium.webdriver.chrome.service import Service # executa o webdriver manager
 from selenium.webdriver.chrome.options import Options # servirá para configurar tamanho da janela do navegador
 
-# usa opções para definir tamanho da tela
-opcoes = Options()
-#opcoes.add_argument('headless') # faz com que o navegador fique oculto.
-opcoes.add_argument('window-size=1350,700')
+class Raspagem:
 
-servico = Service(ChromeDriverManager().install()) # instala o driver no ambiente local
+  def __init__(self):
+    self.inicia_nav()
+    self.encontra_elem()
+    self.interromper()
+    
 
-# Criar uma instância do WebDriver
-navegador = webdriver.Chrome(service=servico, options=opcoes) # roda o navegador
+  def inicia_nav(self):
+        
+    # usa opções para definir tamanho da tela
+    opcoes = Options()
+    #opcoes.add_argument('headless') # faz com que o navegador fique oculto.
+    opcoes.add_argument('window-size=1350,700')
 
-pagina = 'https://www.google.com.br/maps/'
-busca = 'restaurante, Cariacica - ES'
+    servico = Service(ChromeDriverManager().install()) # instala o driver no ambiente local
 
-navegador.get(pagina) # abre a página desejada
+    # Criar uma instância do WebDriver
+    self.navegador = webdriver.Chrome(service=servico, options=opcoes) # roda o navegador
 
-sleep(2) # tempo para que a página renderize e não corra o risco de o texto ser "digitado" antes
+    self.pagina = 'https://www.google.com.br/maps/'
+    self.busca = 'restaurante, Cariacica - ES'
 
-# encontra o elemento xpath do campo desejado. No lugar de xpath pode colocar outro atributo como class e id
-elem_busca = navegador.find_element('xpath','//*[@id="searchboxinput"]')
-elem_busca.click() # seleciona com um click o elemento buscado
-elem_busca.send_keys(busca) # envia o texto digitado na variável ou por extenso dentro de aspas para o campo selecionado
-elem_busca.send_keys(Keys.RETURN) # tecla Enter após digitar a busca
+    self.navegador.get(self.pagina) # abre a página desejada
 
-sleep(3) # tempo para que a página renderize e não corra o risco de não renderizar todo o conteúdo buscado.
-page_busca = navegador.page_source # pega o caminho da página buscada
-page_conteudo = bs(page_busca,'html.parser') # pega o conteudo html do caminho retornado no navegador
-
-
+    sleep(2) # tempo para que a página renderize e não corra o risco de o texto ser "digitado" antes
 
 
+  def encontra_elem(self):
+      
+    # encontra o elemento xpath do campo desejado. No lugar de xpath pode colocar outro atributo como class e id
+    elem_busca = self.navegador.find_element('xpath','//*[@id="searchboxinput"]')
+    elem_busca.click() # seleciona com um click o elemento buscado
+    elem_busca.send_keys(self.busca) # envia o texto digitado na variável ou por extenso dentro de aspas para o campo selecionado
+    elem_busca.send_keys(Keys.RETURN) # tecla Enter após digitar a busca
 
-print(page_conteudo.prettify()) # imprime o código com identação padrão html
+    sleep(3) # tempo para que a página renderize e não corra o risco de não renderizar todo o conteúdo buscado.
+    page_busca = self.navegador.page_source # pega o caminho da página buscada
+    page_conteudo = bs(page_busca,'html.parser') # pega o conteudo html do caminho retornado no navegador
 
-input('pressione alguma tecla para interromper') # precisei colocar pois a página não permanecia aberta após rodar o script
+    print(page_conteudo.prettify()) # imprime o código com identação padrão html
+
+  def interromper(self):
+    input('pressione alguma tecla para interromper') # precisei colocar pois a página não permanecia aberta após rodar o script
+
+r = Raspagem()
 
 # com bs4
 """
